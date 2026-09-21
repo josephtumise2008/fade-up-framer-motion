@@ -1,0 +1,207 @@
+:root {
+  /* palette — light blue · lavender · soft purple */
+  --bg: #f7f9ff;
+  --bg-2: #f1f4ff;
+  --soft-blue: #dcebff;
+  --light-blue: #bfd8ff;
+  --blue: #4f7cff;
+  --blue-deep: #2e5bff;
+  --soft-purple: #dccbff;
+  --purple: #8b5cf6;
+  --purple-deep: #6d28d9;
+  --lavender: #f0eaff;
+  --navy: #17213c;
+  --navy-soft: #24304f;
+  --text-soft: #667085;
+  --text-faint: #98a2b8;
+  --white: #ffffff;
+  --success: #22c55e;
+  --success-soft: #ecfdf3;
+  --cyan: #22d3ee;
+
+  --grad-blue-purple: linear-gradient(135deg, #4f7cff 0%, #8b5cf6 100%);
+  --grad-pill: linear-gradient(135deg, #dcebff 0%, #dccbff 100%);
+
+  /* hairlines */
+  --line: rgba(107, 122, 209, 0.16);
+  --line-strong: rgba(79, 124, 255, 0.28);
+
+  /* surfaces */
+  --surface: rgba(255, 255, 255, 0.8);
+
+  /* shadows — soft blue/lavender */
+  --shadow-sm:
+    0 1px 2px rgba(23, 33, 60, 0.04),
+    0 6px 16px -6px rgba(79, 124, 255, 0.18);
+  --shadow:
+    0 2px 4px rgba(23, 33, 60, 0.04),
+    0 22px 48px -20px rgba(79, 124, 255, 0.3),
+    0 10px 22px -12px rgba(139, 92, 246, 0.2);
+  --shadow-soft:
+    0 2px 6px rgba(23, 33, 60, 0.04),
+    0 14px 34px -14px rgba(79, 124, 255, 0.24);
+
+  /* syntax — default light editor */
+  --tok-keyword: #7c3aed;
+  --tok-string: #2e6bff;
+  --tok-comment: #98a2b8;
+  --tok-function: #4f46e5;
+  --tok-type: #6d28d9;
+  --tok-number: #9333ea;
+  --tok-tag: #2e9bff;
+  --tok-punct: #5a6a96;
+  --tok-plain: #17213c;
+
+  /* type */
+  --font-display:
+    "Fraunces", Georgia, "Iowan Old Style", "Palatino Linotype", Palatino,
+    "Times New Roman", serif;
+  --font-body:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial,
+    sans-serif;
+  --font-mono:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  color-scheme: light;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background:
+    linear-gradient(180deg, #f8faff 0%, #f3f6ff 50%, #f7f9ff 100%);
+  color: var(--navy);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* subtle ambient glow — barely-visible blue/lavender light */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      640px 520px at 8% 0%,
+      rgba(79, 124, 255, 0.1),
+      transparent 62%
+    ),
+    radial-gradient(
+      720px 560px at 92% 2%,
+      rgba(139, 92, 246, 0.1),
+      transparent 62%
+    ),
+    radial-gradient(
+      540px 460px at 0% 46%,
+      rgba(139, 92, 246, 0.055),
+      transparent 62%
+    ),
+    radial-gradient(
+      600px 520px at 100% 72%,
+      rgba(79, 124, 255, 0.07),
+      transparent 62%
+    );
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin-top: 0;
+}
+
+a {
+  color: inherit;
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+}
+
+img,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+::selection {
+  background: rgba(139, 92, 246, 0.22);
+  color: var(--navy);
+}
+
+:focus-visible {
+  outline: 2px dashed var(--blue);
+  outline-offset: 3px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100%;
+  z-index: 100;
+  padding: 0.65rem 1.1rem;
+  background: var(--navy);
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  border-radius: 0 0 10px 10px;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  top: 0;
+  outline: 2px dashed var(--soft-purple);
+  outline-offset: -2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .cursor-bar,
+  .status__dot {
+    animation: none !important;
+  }
+}
