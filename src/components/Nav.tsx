@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Sparkle from "./Sparkle";
 
@@ -9,15 +9,69 @@ const LINKS = [
   { label: "Live Demo", href: "#demo" },
   { label: "AI Skills", href: "#skills" },
   { label: "Judging", href: "#judge" },
+  { label: "A11y Kit", href: "#a11y" },
 ];
 
 export default function Nav() {
   const [active, setActive] = useState("Home");
   const [open, setOpen] = useState(false);
+  const lockScrollspy = useRef(false);
+
+  useEffect(() => {
+    const byId = new Map(LINKS.map((link) => [link.href.slice(1), link.label]));
+    let offsets = new Map<string, number>();
+
+    const measure = () => {
+      const next = new Map<string, number>();
+      for (const el of document.querySelectorAll<HTMLElement>("section[id], header[id]")) {
+        const label = byId.get(el.id);
+        if (label) next.set(label, el.getBoundingClientRect().top + window.scrollY);
+      }
+      offsets = next;
+    };
+
+    let raf = 0;
+    let last = "";
+    let timer = 0;
+    const update = () => {
+      raf = 0;
+      if (lockScrollspy.current) return;
+      const pos = window.scrollY + 96;
+      let current = "Home";
+      for (const [label, top] of offsets) {
+        if (top <= pos + 4) current = label;
+      }
+      if (current !== last) {
+        last = current;
+        setActive(current);
+      }
+    };
+    const onScroll = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        lockScrollspy.current = false;
+      }, 200);
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+
+    measure();
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    window.addEventListener("resize", measure);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.clearTimeout(timer);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("resize", measure);
+    };
+  }, []);
 
   const select = (label: string) => {
     setActive(label);
     setOpen(false);
+    lockScrollspy.current = true;
   };
 
   return (

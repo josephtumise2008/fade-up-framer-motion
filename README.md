@@ -43,12 +43,30 @@ npm run dev
 src/
 ├── components/   FadeUp, CodeWindow (mini syntax highlighter), Nav, Sparkle, DemoCard,
 │                 SectionHeading, icons, Cursor
-├── sections/     Hero, LiveDemo, HowItWorks, CodeSection, Footer
+├── sections/     Hero, LiveDemo, HowItWorks, CodeSection, Footer, A11yDemo
+├── a11y/         Reusable accessible primitives — see below
 ├── lib/          fadeUpSource.ts (single source of truth for the displayed/copyable code)
 ├── App.tsx
 ├── App.css       component + layout styles
 └── index.css     design tokens, ambient glows, reduced-motion rules
 ```
+
+## A11y kit
+
+`src/a11y/` is a small set of keyboard-first, ARIA-correct reusable
+components, demoed in the **A11y Kit** section (`#a11y`):
+
+| Component    | Behavior                                                            |
+| ------------ | ------------------------------------------------------------------- |
+| `Modal`      | `role="dialog"` + `aria-modal`, focus trap, Escape to close, focus returns to trigger, scroll lock |
+| `Dropdown`   | Menu-button pattern, `role="menuitemradio"`, roving tabindex, arrow/Home/End keys, Escape closes |
+| `Tabs`       | `role="tablist"`, arrow-key activation, Home/End, focusable active panel |
+| `Accordion`  | Disclosure pattern, `aria-expanded` + `inert` collapsed panels      |
+| `TextField` `TextArea` `Select` | Labeled controls with `aria-describedby` hint/error and `aria-invalid` |
+| `RadioGroup` `Checkbox` `Switch` | Native keyboard behavior, `role="radiogroup"` / `role="switch"`     |
+
+`src/a11y/useFocusTrap.ts` provides the `useFocusTrap` (Tab wrapping + focus
+restore) and `useScrollLock` hooks.
 
 ## Notes
 
